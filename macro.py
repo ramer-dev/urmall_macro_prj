@@ -7,8 +7,8 @@ import json
 
 class Macro:
     def __init__(self):
-        self.driver = Chrome()
-        self.driver.implicitly_wait(3)
+        # self.driver = Chrome()
+        # self.driver.implicitly_wait(3)
         self.day = time.strftime('%d', time.localtime(time.time()))
         with open('settings.json', "r", encoding='utf-8') as f:
             self.settings = json.load(f)
@@ -35,7 +35,7 @@ class Macro:
             self.settings = json.load(f)
         print(self.settings)
 
-    def Input(self, daynight, site, name):
+    def InputAll(self, daynight, site, name):
         self.SetTime()
 
         if daynight == 'D':
@@ -101,11 +101,25 @@ class Macro:
 
     def TeamMacro(self, daynight):
         self.SetTime()
-        self.Input(daynight, self.siteDB('관제통신소'))
-        self.Input(daynight, self.siteDB('항공통신소'))
-        self.Input(daynight, self.siteDB('종합통신소'))
+        self.InputAll(daynight, self.siteDB('관제통신소'))
+        self.InputAll(daynight, self.siteDB('항공통신소'))
+        self.InputAll(daynight, self.siteDB('종합통신소'))
+
+    def getTeam(self):
+        self.SetTime()
+
+
 
 
 test = Macro()
 print(test.MemberDB('관제통신소','B'))
 print(test.readSettings())
+
+day = time.strftime('20%y,%m,%d', time.localtime(time.time()))
+[year, month, day] = day.split(',')
+[year, month, day] = [int(year), int(month), int(day)]
+
+
+
+
+
