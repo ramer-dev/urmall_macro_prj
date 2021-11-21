@@ -1,20 +1,20 @@
 from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
+import schedule
 import time, datetime
 import json
 
 
 class Macro:
     def __init__(self):
-        # self.driver = Chrome()
-        # self.driver.implicitly_wait(3)
+        self.driver = Chrome()
+        self.driver.implicitly_wait(3)
         self.day = time.strftime('%d', time.localtime(time.time()))
         with open('settings.json', "r", encoding='utf-8') as f:
             self.settings = json.load(f)
             self.members = self.settings['members']
             self.update = self.settings['update']
-
 
     def siteDB(self, site):
         if site == '관제통신소':
@@ -108,18 +108,19 @@ class Macro:
     def getTeam(self):
         self.SetTime()
 
+    def test(self):
+        schedule.every().day.at("17:00:10").do(self.test2)
+
+    def test2(self):
+        self.InputOnlyMember('N', self.siteDB('관제통신소'), '강은모')
 
 
+# day = time.strftime('20%y,%m,%d', time.localtime(time.time()))
+# [year, month, day] = day.split(',')
+# [year, month, day] = [int(year), int(month), int(day)]
+m = Macro()
+m.test2()
 
-test = Macro()
-print(test.MemberDB('관제통신소','B'))
-print(test.readSettings())
-
-day = time.strftime('20%y,%m,%d', time.localtime(time.time()))
-[year, month, day] = day.split(',')
-[year, month, day] = [int(year), int(month), int(day)]
-
-
-
-
-
+while True:
+    schedule.run_pending()
+    time.sleep(1)
